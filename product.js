@@ -44,9 +44,24 @@ function getProducts(){
     };
     return elemento;
 }
-    
+function updateProduct(id, name, price) {
+    let element = lista.find(item => item.id === id);
+    if (lista.length == 0) {
+        throw new Error('Products list empty!');
+    }
+    if (!element) {
+        throw new Error("This product doesn't exist");
+    }
+    if (!name && !price) {
+        throw new Error('Name or price required');
+    }
 
-
+    if (name && price) {
+        element.name = name;
+        element.price = price;
+        return lista; 
+    }
+};
 module.exports={
     resetProducts,
     addProduct,
@@ -54,6 +69,7 @@ module.exports={
     getProducts,
     resetProducts,
     getProduct,
+    updateProduct,
     lista,
     id
 }

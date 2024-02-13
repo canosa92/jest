@@ -3,6 +3,7 @@ const{resetProducts,
     removeProduct,
     getProducts,
     getProduct,
+    updateProduct,
     lista,
     id}=require('./product')
 
@@ -30,8 +31,7 @@ describe('addProduct', () => {
     });
     
     it('should add a product', () => {
-        const updatedLista = addProduct('leche', 1);
-        expect(updatedLista).toEqual([{ id: 1, name: 'leche', price: 1 }]);
+        expect(addProduct('leche', 1)).toEqual([{ id: 1, name: 'leche', price: 1 }]);
     });
 });
 
@@ -70,3 +70,28 @@ describe('return a element',()=>{
     });
 
 })
+
+describe('Update Product', () => {
+    beforeEach(() => {
+        resetProducts();
+    });
+
+    it('should throw an error if the list is empty', () => {
+        expect(() => updateProduct()).toThrow('Products list empty!');
+    });
+
+    it('should throw an error if the id doesn"t exist in the list', () => {
+        addProduct('Product 1', 1);
+        expect(() => updateProduct(2)).toThrow("This product doesn't exist");
+    });
+
+    it('should throw an error if name or price is not provided', () => {
+        addProduct('Product 1', 1);
+        expect(() => updateProduct(1)).toThrow('Name or price required');
+    });
+
+    it('should update the product with the provided id', () => {
+        addProduct('Product 1', 1);
+        expect(updateProduct(1, 'Product 2', 2)).toEqual([{ id: 1, name: 'Product 2', price: 2 }]);
+    });
+});
